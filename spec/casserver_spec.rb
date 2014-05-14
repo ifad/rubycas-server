@@ -20,6 +20,19 @@ describe 'CASServer' do
     @target_service = 'http://my.app.test'
   end
 
+  describe "/" do
+    it "redirects to /login" do
+      visit "/"
+      page.current_url.should =~ %r{/login$}
+    end
+
+    it "redirects to /login preserving the ?service= parameter" do
+      visit "/?service=http://foo.bar"
+
+      page.current_url.should =~ %r{/login\?service=http://foo\.bar$}
+    end
+  end
+
   describe "/login" do
     before do
       load_server("default_config")

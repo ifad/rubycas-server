@@ -499,7 +499,11 @@ module CASServer
     end
 
     get /^#{uri_path}\/?$/ do
-      redirect "#{config['uri_path']}/login", 303
+      service = if params['service']
+        "?service=#{clean_service_url(params['service'])}"
+      end
+
+      redirect "#{config['uri_path']}/login#{service}", 303
     end
 
 
